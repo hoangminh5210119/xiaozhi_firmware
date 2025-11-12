@@ -3,7 +3,7 @@
     "title": "xiaozhi",
     "board": "esp32 s3",
     "display": "SSD1306 128x32",
-    "img_schematic": "link",
+    "img_schematic": "image.png",
     "hotword": "alexa",
     "firmware": "merged_firmware.bin"
   },
