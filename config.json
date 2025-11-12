@@ -1,0 +1,18 @@
+[
+  {
+    "title": "xiaozhi",
+    "board": "esp32 s3",
+    "display": "SSD1306 128x32",
+    "img_schematic": "link",
+    "hotword": "alexa",
+    "firmware": "link"
+  },
+  {
+    "title": "xiaozhi1",
+    "board": "esp32 s3",
+    "display": "ST7789 240X320",
+    "img_schematic": "link",
+    "hotword": "alexa",
+    "firmware": "link"
+  }
+]
