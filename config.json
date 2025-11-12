@@ -4,6 +4,7 @@
     "board": "esp32 s3",
     "display": "SSD1306 128x32",
     "img_schematic": "image.png",
+    "version": "2.0.3",
     "hotword": "alexa",
     "firmware": "merged_firmware.bin"
   },
@@ -12,6 +13,7 @@
     "board": "esp32 s3",
     "display": "ST7789 240X320",
     "img_schematic": "link",
+    "version": "2.0.3",
     "hotword": "alexa",
     "firmware": "merged_firmware.bin"
   }
