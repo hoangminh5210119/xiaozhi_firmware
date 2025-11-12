@@ -3,7 +3,7 @@
     "title": "Mạch tím",
     "board": "esp32 s3",
     "display": "SSD1306 128x64",
-    "img_schematic": "firmware/2.0.3/esp32s3_purple_st7789_1.5_240240/connect.png",
+    "img_schematic": "firmware/2.0.3/esp32s3_purple_oled_SSD1306/connect.png",
     "version": "2.0.3",
     "hotword": "alexa",
     "firmware": "firmware/2.0.3/esp32s3_purple_oled_SSD1306/merged_firmware.bin"
