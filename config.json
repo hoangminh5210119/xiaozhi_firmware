@@ -5,7 +5,7 @@
     "display": "SSD1306 128x32",
     "img_schematic": "link",
     "hotword": "alexa",
-    "firmware": "link"
+    "firmware": "merged_firmware.bin"
   },
   {
     "title": "xiaozhi1",
@@ -13,6 +13,6 @@
     "display": "ST7789 240X320",
     "img_schematic": "link",
     "hotword": "alexa",
-    "firmware": "link"
+    "firmware": "merged_firmware.bin"
   }
 ]
