@@ -1,6 +1,6 @@
 [
   {
-    "title": "Mạch tím",
+    "title": "Mạch tím ESP32 S3",
     "board": "esp32 s3",
     "display": "SSD1306 128x64",
     "img_schematic": "firmware/2.0.3/esp32s3_purple_oled_SSD1306/connect.png",
@@ -25,5 +25,14 @@
     "version": "2.0.3",
     "hotword": "alexa",
     "firmware": "firmware/2.0.3/esp32s3_purple_oled_SSD1306/merged_firmware.bin"
+  },
+  {
+    "title": "Esp32 s3 ST7789 240X240",
+    "board": "esp32 s3",
+    "display": "ST7789 240X320",
+    "img_schematic": "firmware/2.0.3/s3_tft1.54_custom/connection.png",
+    "version": "2.0.3",
+    "hotword": "alexa",
+    "firmware": "firmware/2.0.3/s3_tft1.54_custom/merged_firmware.bin"
   }
 ]
