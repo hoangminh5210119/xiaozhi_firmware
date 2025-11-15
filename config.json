@@ -1,6 +1,6 @@
 [
   {
-    "title": "Mạch tím ESP32 S3",
+    "title": "Mạch tím ESP32 S3 SSD1306 128x64",
     "board": "esp32 s3",
     "display": "SSD1306 128x64",
     "img_schematic": "firmware/2.0.3/esp32s3_purple_oled_SSD1306/connect.png",
