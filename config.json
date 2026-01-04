@@ -34,5 +34,14 @@
     "version": "2.0.3",
     "hotword": "alexa",
     "firmware": "firmware/2.0.3/s3_tft1.54_custom/merged_firmware.bin"
+  },
+  {
+    "title": "Esp32-S3 ST7789 240X320 2.4 inch",
+    "board": "esp32-S3 camera",
+    "display": "ST7789 240X320 2.4 inch",
+    "img_schematic": "firmware/2.0.5/esp32s3Camera_tft_st7789_240320/connection.png",
+    "version": "2.0.5",
+    "hotword": "alexa",
+    "firmware": "firmware/2.0.5/esp32s3Camera_tft_st7789_240320/merged_firmware.bin"
   }
 ]

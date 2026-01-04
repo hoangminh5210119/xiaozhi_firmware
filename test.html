@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Firmware Flasher - Test Page</title>
+</head>
+<body>
+    <!-- Load the module -->
+    <div id="flasher-container"></div>
+
+    <script>
+        // Load the module content
+        fetch('index.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('flasher-container').innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading module:', error);
+                document.getElementById('flasher-container').innerHTML = 
+                    '<div style="padding: 20px; color: red;">Error loading flasher module</div>';
+            });
+    </script>
+</body>
+</html>

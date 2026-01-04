@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Firmware Flasher</title>
+</head>
+<body style="margin: 0; padding: 0;">
+<!-- ESP32 Firmware Flasher - Fixed Version -->
+<div id="esp32-flasher-module">
+    <style scoped>
+        #esp32-flasher-module {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            background: #f8f9fa;
+            padding: 20px;
+            color: #333;
+            box-sizing: border-box;
+        }
+
+        #esp32-flasher-module * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        #esp32-flasher-module .esp-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        #esp32-flasher-module .esp-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 40px 20px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        #esp32-flasher-module .esp-header h1 {
+            color: #1a202c;
+            font-size: 2.2em;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        #esp32-flasher-module .esp-header h1 .esp-emoji {
+            display: inline-block;
+            animation: esp-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes esp-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        #esp32-flasher-module .esp-header p {
+            color: #718096;
+            font-size: 1.05em;
+        }
+
+        #esp32-flasher-module .esp-main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        #esp32-flasher-module .esp-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        #esp32-flasher-module .esp-card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        #esp32-flasher-module .esp-card-full {
+            grid-column: 1 / -1;
+        }
+
+        #esp32-flasher-module .esp-card-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        #esp32-flasher-module .esp-icon {
+            width: 24px;
+            height: 24px;
+            color: #667eea;
+            flex-shrink: 0;
+        }
+
+        #esp32-flasher-module .esp-form-group {
+            margin-bottom: 20px;
+        }
+
+        #esp32-flasher-module .esp-form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #4a5568;
+            font-size: 0.95em;
+        }
+
+        #esp32-flasher-module .esp-form-select {
+            width: 100%;
+            padding: 12px 40px 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1em;
+            background: #f7fafc;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23667eea' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 18px;
+        }
+
+        #esp32-flasher-module .esp-form-select:hover {
+            border-color: #667eea;
+            background: white;
+        }
+
+        #esp32-flasher-module .esp-form-select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        #esp32-flasher-module .esp-config-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            display: none;
+        }
+
+        #esp32-flasher-module .esp-config-info .esp-info-item:last-child {
+            grid-column: 1 / -1;
+        }
+
+        #esp32-flasher-module .esp-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        #esp32-flasher-module .esp-info-label {
+            font-size: 0.8em;
+            color: #718096;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        #esp32-flasher-module .esp-info-value {
+            font-weight: 700;
+            color: #2d3748;
+            font-size: 1em;
+        }
+
+        #esp32-flasher-module .esp-wiring-container {
+            text-align: center;
+            padding: 30px;
+            background: #f7fafc;
+            border-radius: 12px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #cbd5e0;
+        }
+
+        #esp32-flasher-module .esp-wiring-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        #esp32-flasher-module .esp-placeholder-text {
+            color: #a0aec0;
+            font-size: 1em;
+            font-weight: 500;
+        }
+
+        #esp32-flasher-module .esp-flash-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        #esp32-flasher-module .esp-flash-options {
+            background: #f7fafc;
+            padding: 18px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+        }
+
+        #esp32-flasher-module .esp-checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+        }
+
+        #esp32-flasher-module .esp-checkbox-wrapper:hover {
+            background: #edf2f7;
+        }
+
+        #esp32-flasher-module .esp-checkbox-input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        #esp32-flasher-module .esp-checkbox-label {
+            font-size: 1em;
+            font-weight: 600;
+            color: #2d3748;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #esp32-flasher-module .esp-checkbox-icon {
+            width: 20px;
+            height: 20px;
+            color: #e53e3e;
+        }
+
+        #esp32-flasher-module .esp-checkbox-description {
+            font-size: 0.85em;
+            color: #718096;
+            margin-left: 32px;
+            margin-top: 4px;
+            line-height: 1.5;
+        }
+
+        #esp32-flasher-module .esp-flash-button {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 14px 0 rgba(102, 126, 234, 0.4);
+        }
+
+        #esp32-flasher-module .esp-flash-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        #esp32-flasher-module .esp-flash-button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        #esp32-flasher-module .esp-flash-button:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        #esp32-flasher-module .esp-flash-button svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        #esp32-flasher-module .esp-status-message {
+            margin-top: 20px;
+            padding: 14px 18px;
+            border-radius: 10px;
+            font-size: 0.95em;
+            font-weight: 500;
+            display: none;
+            animation: esp-slideIn 0.3s ease;
+        }
+
+        @keyframes esp-slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #esp32-flasher-module .esp-status-message.esp-info {
+            background: #e6f7ff;
+            color: #0050b3;
+            border: 2px solid #91d5ff;
+        }
+
+        #esp32-flasher-module .esp-status-message.esp-success {
+            background: #f6ffed;
+            color: #389e0d;
+            border: 2px solid #b7eb8f;
+        }
+
+        #esp32-flasher-module .esp-status-message.esp-error {
+            background: #fff1f0;
+            color: #cf1322;
+            border: 2px solid #ffa39e;
+        }
+
+        #esp32-flasher-module .esp-loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            display: none;
+        }
+
+        #esp32-flasher-module .esp-loading-content {
+            text-align: center;
+        }
+
+        #esp32-flasher-module .esp-loading-spinner {
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: esp-spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        #esp32-flasher-module .esp-loading-content p {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        @keyframes esp-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #esp32-flasher-module esp-web-install-button {
+            display: block;
+            width: 100%;
+        }
+
+        #esp32-flasher-module esp-web-install-button::part(button) {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px 0 rgba(102, 126, 234, 0.4);
+        }
+
+        #esp32-flasher-module esp-web-install-button::part(button):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        @media (max-width: 968px) {
+            #esp32-flasher-module .esp-main-grid {
+                grid-template-columns: 1fr;
+            }
+            #esp32-flasher-module .esp-card-full {
+                grid-column: 1;
+            }
+            #esp32-flasher-module .esp-config-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            #esp32-flasher-module {
+                padding: 15px;
+            }
+            #esp32-flasher-module .esp-header {
+                padding: 30px 20px;
+            }
+            #esp32-flasher-module .esp-header h1 {
+                font-size: 1.8em;
+            }
+            #esp32-flasher-module .esp-header p {
+                font-size: 0.95em;
+            }
+            #esp32-flasher-module .esp-card {
+                padding: 20px;
+            }
+            #esp32-flasher-module .esp-card-title {
+                font-size: 1.15em;
+            }
+            #esp32-flasher-module .esp-main-grid {
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+            #esp32-flasher-module .esp-flash-button {
+                font-size: 1em;
+                padding: 14px 20px;
+            }
+            #esp32-flasher-module .esp-wiring-container {
+                min-height: 250px;
+                padding: 20px;
+            }
+            #esp32-flasher-module .esp-info-value {
+                font-size: 0.95em;
+            }
+        }
+    </style>
+
+    <div class="esp-loading-overlay" id="espLoadingOverlay">
+        <div class="esp-loading-content">
+            <div class="esp-loading-spinner"></div>
+            <p>Đang tải cấu hình...</p>
+        </div>
+    </div>
+
+    <div class="esp-container">
+        <div class="esp-header">
+            <h1><span class="emoji">⚡</span>Nạp code cho esp32-xiaozhi</h1>
+            <p>code được build từ  78/xiaozhi-esp32</p>
+        </div>
+
+        <div class="esp-main-grid">
+            <div class="esp-card">
+                <div class="esp-card-title">
+                    <svg class="esp-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Chọn cấu hình
+                </div>
+
+                <div class="esp-form-group">
+                    <label class="esp-form-label">Cấu hình có sẵn</label>
+                    <select id="espConfigSelect" class="esp-form-select">
+                        <option value="">-- Chọn cấu hình --</option>
+                    </select>
+                </div>
+
+                <div class="esp-config-info" id="espConfigInfo">
+                    <div class="esp-info-item">
+                        <span class="esp-info-label">Board</span>
+                        <span class="esp-info-value" id="espInfoBoard">-</span>
+                    </div>
+                    <div class="esp-info-item">
+                        <span class="esp-info-label">Màn hình</span>
+                        <span class="esp-info-value" id="espInfoDisplay">-</span>
+                    </div>
+                    <div class="esp-info-item">
+                        <span class="esp-info-label">Loại</span>
+                        <span class="esp-info-value" id="espInfoDisplayType">-</span>
+                    </div>
+                    <div class="esp-info-item">
+                        <span class="esp-info-label">Độ phân giải</span>
+                        <span class="esp-info-value" id="espInfoResolution">-</span>
+                    </div>
+                    <div class="esp-info-item">
+                        <span class="esp-info-label">Version</span>
+                        <span class="esp-info-value" id="espInfoVersion">-</span>
+                    </div>
+                    <div class="esp-info-item">
+                        <span class="esp-info-label">Hotword</span>
+                        <span class="esp-info-value" id="espInfoHotword">-</span>
+                    </div>
+                    <div class="esp-info-item" style="grid-column: 1 / -1;">
+                        <span class="esp-info-label">Ghi chú</span>
+                        <span class="esp-info-value" id="espInfoNote" style="font-size: 0.9em; line-height: 1.5;">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="esp-card">
+                <div class="esp-card-title">
+                    <svg class="esp-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    Nạp Firmware
+                </div>
+
+                <div class="esp-flash-section">
+                    <div class="esp-flash-options">
+                        <div class="esp-checkbox-wrapper">
+                            <input type="checkbox" id="espEraseFlashCheckbox" class="esp-checkbox-input" checked>
+                            <label for="espEraseFlashCheckbox" class="esp-checkbox-label">
+                                <svg class="esp-checkbox-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                </svg>
+                                Xóa flash trước khi nạp
+                            </label>
+                        </div>
+                        <div class="esp-checkbox-description">
+                            Xóa toàn bộ dữ liệu trên chip trước khi nạp firmware mới (Khuyến nghị)
+                        </div>
+                    </div>
+
+                    <div id="espFlashContainer"></div>
+                </div>
+
+                <div class="esp-status-message" id="espStatusMessage"></div>
+            </div>
+        </div>
+
+        <div class="esp-card esp-card-full">
+            <div class="esp-card-title">
+                <svg class="esp-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                Sơ đồ kết nối
+            </div>
+            <div class="esp-wiring-container" id="espWiringContainer">
+                <div class="esp-placeholder-text">📋 Vui lòng chọn cấu hình để xem sơ đồ kết nối</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        (function() {
+            'use strict';
+
+            // Configuration
+            const DEBUG_MODE = true; // Set to false for production (load from GitHub)
+            const GITHUB_REPO = 'hoangminh5210119/xiaozhi_firmware';
+            const GITHUB_BRANCH = 'main';
+            const CONFIG_FILE_PATH = 'config.json';
+            const FETCH_TIMEOUT = 10000; // 10 seconds timeout
+            const MAX_RETRIES = 3;
+
+            // State management
+            class FlasherState {
+                constructor() {
+                    this.configurations = [];
+                    this.selectedConfig = null;
+                    this.abortController = null;
+                    this.eventListeners = [];
+                    this.webToolsLoaded = false;
+                }
+
+                cleanup() {
+                    // Abort any pending requests
+                    if (this.abortController) {
+                        this.abortController.abort();
+                        this.abortController = null;
+                    }
+
+                    // Remove all event listeners
+                    this.eventListeners.forEach(({ element, event, handler }) => {
+                        element.removeEventListener(event, handler);
+                    });
+                    this.eventListeners = [];
+                }
+
+                addListener(element, event, handler) {
+                    element.addEventListener(event, handler);
+                    this.eventListeners.push({ element, event, handler });
+                }
+            }
+
+            const state = new FlasherState();
+
+            // DOM elements with null checks
+            const elements = {
+                configSelect: document.getElementById('espConfigSelect'),
+                configInfo: document.getElementById('espConfigInfo'),
+                wiringContainer: document.getElementById('espWiringContainer'),
+                flashContainer: document.getElementById('espFlashContainer'),
+                statusMessage: document.getElementById('espStatusMessage'),
+                loadingOverlay: document.getElementById('espLoadingOverlay'),
+                eraseCheckbox: document.getElementById('espEraseFlashCheckbox')
+            };
+
+            // Validate all elements exist
+            const missingElements = Object.entries(elements)
+                .filter(([key, value]) => !value)
+                .map(([key]) => key);
+
+            if (missingElements.length > 0) {
+                console.error('Missing DOM elements:', missingElements);
+                return;
+            }
+
+            // ===== UTILITY FUNCTIONS =====
+
+            // Safe text encoding for btoa (fixes Unicode crash)
+            function safeBase64Encode(str) {
+                try {
+                    // Convert to UTF-8 bytes then to base64
+                    return btoa(unescape(encodeURIComponent(str)));
+                } catch (error) {
+                    console.error('Base64 encoding error:', error);
+                    throw new Error('Không thể encode dữ liệu');
+                }
+            }
+
+            // Sanitize text to prevent XSS
+            function sanitizeText(text) {
+                const div = document.createElement('div');
+                div.textContent = text || '-';
+                return div.innerHTML;
+            }
+
+            // Fetch with timeout and retry
+            async function fetchWithTimeout(url, options = {}, timeout = FETCH_TIMEOUT) {
+                state.abortController = new AbortController();
+                const { signal } = state.abortController;
+
+                const timeoutId = setTimeout(() => {
+                    state.abortController.abort();
+                }, timeout);
+
+                try {
+                    const response = await fetch(url, {
+                        ...options,
+                        signal,
+                        cache: 'no-store',
+                        mode: 'cors'
+                    });
+
+                    clearTimeout(timeoutId);
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+
+                    return response;
+                } catch (error) {
+                    clearTimeout(timeoutId);
+                    
+                    if (error.name === 'AbortError') {
+                        throw new Error('Timeout: Không thể tải dữ liệu');
+                    }
+                    throw error;
+                } finally {
+                    state.abortController = null;
+                }
+            }
+
+            // Build full URL safely
+            function getFullUrl(path) {
+                if (!path || typeof path !== 'string') {
+                    return '';
+                }
+
+                if (path.startsWith('http://') || path.startsWith('https://')) {
+                    return path;
+                }
+
+                // In debug mode, use relative paths for local files
+                if (DEBUG_MODE) {
+                    return path.startsWith('/') ? path : `./${path}`;
+                }
+
+                // In production mode, use GitHub raw URL
+                const cleanPath = path.startsWith('/') ? path.substring(1) : path;
+                return `https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/${cleanPath}`;
+            }
+
+            // Validate configuration object
+            function validateConfig(config) {
+                if (!config || typeof config !== 'object') {
+                    return false;
+                }
+
+                // Check required fields
+                const required = ['title', 'board', 'hotword'];
+                if (!required.every(field => config[field] && typeof config[field] === 'string')) {
+                    return false;
+                }
+
+                // Validate display - can be string or object
+                if (!config.display) {
+                    return false;
+                }
+                
+                if (typeof config.display === 'object') {
+                    return config.display.model && typeof config.display.model === 'string';
+                }
+                
+                return typeof config.display === 'string';
+            }
+
+            // ===== UI FUNCTIONS =====
+
+            function showLoading(show = true) {
+                if (elements.loadingOverlay) {
+                    elements.loadingOverlay.style.display = show ? 'flex' : 'none';
+                }
+            }
+
+            function showStatus(message, type = 'info') {
+                if (!elements.statusMessage) return;
+
+                elements.statusMessage.textContent = message;
+                elements.statusMessage.className = `esp-status-message esp-${type}`;
+                elements.statusMessage.style.display = 'block';
+
+                // Auto hide success messages after 5 seconds
+                if (type === 'success') {
+                    setTimeout(() => hideStatus(), 5000);
+                }
+            }
+
+            function hideStatus() {
+                if (elements.statusMessage) {
+                    elements.statusMessage.style.display = 'none';
+                }
+            }
+
+            // ===== CORE FUNCTIONS =====
+
+            async function loadConfigurations() {
+                showLoading(true);
+                hideStatus();
+
+                try {
+                    let configUrl;
+                    
+                    if (DEBUG_MODE) {
+                        // Load from local file
+                        configUrl = CONFIG_FILE_PATH;
+                        console.log('🔧 DEBUG MODE: Loading config from local file:', configUrl);
+                        console.log('⚠️ Note: If running via file://, you may need a local server');
+                        console.log('💡 Try: python -m http.server 8000');
+                    } else {
+                        // Load from GitHub
+                        configUrl = `https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/${CONFIG_FILE_PATH}`;
+                        console.log('🌐 PRODUCTION MODE: Loading config from GitHub:', configUrl);
+                    }
+
+                    const response = await fetch(configUrl, {
+                        cache: DEBUG_MODE ? 'no-store' : 'default'
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+
+                    const data = await response.json();
+                    console.log('📦 Raw data loaded:', data);
+
+                    if (!Array.isArray(data) || data.length === 0) {
+                        throw new Error('Config file is empty or invalid');
+                    }
+
+                    // Validate all configurations
+                    state.configurations = data.filter(validateConfig);
+                    console.log('✅ Valid configurations:', state.configurations.length);
+
+                    if (state.configurations.length === 0) {
+                        throw new Error('No valid configurations found');
+                    }
+
+                    // Populate dropdown safely
+                    const selectHTML = state.configurations.map((config, index) => {
+                        const safeTitle = sanitizeText(config.title);
+                        return `<option value="${index}">${safeTitle}</option>`;
+                    }).join('');
+
+                    elements.configSelect.innerHTML = `<option value="">-- Chọn cấu hình --</option>${selectHTML}`;
+
+                    const modeText = DEBUG_MODE ? '(Local)' : '(GitHub)';
+                    console.log(`✅ Loaded ${state.configurations.length} configurations ${modeText}`);
+                    showStatus(`Đã tải ${state.configurations.length} cấu hình ${modeText}`, 'success');
+
+                } catch (error) {
+                    console.error('❌ Config loading error:', error);
+                    const modeText = DEBUG_MODE ? 'local' : 'GitHub';
+                    
+                    let errorMsg = `Lỗi tải cấu hình từ ${modeText}: ${error.message}`;
+                    
+                    if (DEBUG_MODE && error.message.includes('Failed to fetch')) {
+                        errorMsg += '\n💡 Cần chạy local server: python -m http.server 8000';
+                    }
+                    
+                    showStatus(errorMsg, 'error');
+                    elements.configSelect.innerHTML = '<option value="">Lỗi tải config</option>';
+                } finally {
+                    showLoading(false);
+                }
+            }
+
+            function updateConfigDisplay() {
+                const selectedIndex = elements.configSelect.value;
+
+                if (selectedIndex === '') {
+                    resetDisplay();
+                    return;
+                }
+
+                const config = state.configurations[selectedIndex];
+                if (!config || !validateConfig(config)) {
+                    showStatus('Cấu hình không hợp lệ', 'error');
+                    resetDisplay();
+                    return;
+                }
+
+                state.selectedConfig = config;
+                displayConfigInfo(config);
+                displayWiringDiagram(config);
+                createFlashButton(config);
+            }
+
+            function resetDisplay() {
+                elements.configInfo.style.display = 'none';
+                elements.wiringContainer.innerHTML = '<div class="esp-placeholder-text">📋 Vui lòng chọn cấu hình để xem sơ đồ kết nối</div>';
+                elements.flashContainer.innerHTML = '';
+                state.selectedConfig = null;
+                hideStatus();
+            }
+
+            function displayConfigInfo(config) {
+                // Safely update info with sanitized text
+                document.getElementById('espInfoBoard').textContent = config.board || '-';
+                
+                // Display info - handle both old and new format
+                if (typeof config.display === 'object') {
+                    const display = config.display;
+                    document.getElementById('espInfoDisplay').textContent = display.model || '-';
+                    document.getElementById('espInfoDisplayType').textContent = display.type || '-';
+                    document.getElementById('espInfoResolution').textContent = display.resolution || '-';
+                } else {
+                    // Old format fallback
+                    document.getElementById('espInfoDisplay').textContent = config.display || '-';
+                    document.getElementById('espInfoDisplayType').textContent = '-';
+                    document.getElementById('espInfoResolution').textContent = '-';
+                }
+                
+                document.getElementById('espInfoVersion').textContent = config.version || '-';
+                document.getElementById('espInfoHotword').textContent = config.hotword || '-';
+                document.getElementById('espInfoNote').textContent = config.note || '-';
+                
+                elements.configInfo.style.display = 'grid';
+            }
+
+            function displayWiringDiagram(config) {
+                // Handle both old and new format
+                const schematicPath = config.schematic?.image || config.img_schematic;
+                
+                if (!schematicPath || schematicPath === 'link') {
+                    const displayText = typeof config.display === 'object' 
+                        ? `${config.display.model} ${config.display.resolution}`
+                        : config.display;
+                    
+                    elements.wiringContainer.innerHTML = `
+                        <div class="esp-placeholder-text">
+                            📋 Sơ đồ: ${sanitizeText(config.board)} + ${sanitizeText(displayText)}
+                        </div>
+                    `;
+                    return;
+                }
+
+                const imageUrl = getFullUrl(schematicPath);
+                const img = document.createElement('img');
+                img.className = 'esp-wiring-image';
+                img.alt = `Sơ đồ kết nối ${config.title}`;
+                img.src = imageUrl;
+                
+                img.onerror = () => {
+                    elements.wiringContainer.innerHTML = '<div class="esp-placeholder-text">❌ Không thể tải hình ảnh sơ đồ</div>';
+                };
+
+                elements.wiringContainer.innerHTML = '';
+                elements.wiringContainer.appendChild(img);
+            }
+
+            async function createFlashButton(config) {
+                // Handle both old and new firmware format
+                const firmwarePath = config.firmware?.path || config.firmware;
+                
+                // Validate firmware URL
+                if (!firmwarePath || firmwarePath === 'link' || firmwarePath.trim() === '') {
+                    elements.flashContainer.innerHTML = '<button class="esp-flash-button" disabled>❌ Chưa có firmware</button>';
+                    showStatus('Cấu hình này chưa có firmware hợp lệ', 'error');
+                    return;
+                }
+
+                try {
+                    const firmwareUrl = getFullUrl(firmwarePath);
+                    const eraseFlash = elements.eraseCheckbox?.checked ?? true;
+
+                    // Create manifest object
+                    const manifest = {
+                        name: config.title,
+                        version: config.version || "1.0",
+                        builds: [{
+                            chipFamily: "ESP32-S3",
+                            parts: [{ 
+                                path: firmwareUrl, 
+                                offset: parseInt(config.firmware?.offset) || 0
+                            }],
+                            erase: eraseFlash
+                        }]
+                    };
+
+                    if (!eraseFlash) {
+                        manifest.new_install_skip_erase = true;
+                    }
+
+                    // Safely encode manifest
+                    const manifestJson = JSON.stringify(manifest);
+                    const manifestBase64 = safeBase64Encode(manifestJson);
+                    const manifestUrl = `data:application/json;base64,${manifestBase64}`;
+
+                    // Load ESP Web Tools if needed
+                    await loadESPWebTools();
+
+                    // Create flash button
+                    const eraseText = eraseFlash ? '(Xóa flash trước)' : '(Giữ dữ liệu cũ)';
+                    
+                    elements.flashContainer.innerHTML = `
+                        <esp-web-install-button manifest="${manifestUrl}">
+                            <button slot="activate" class="esp-flash-button">
+                                <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                                <span>Nạp Code</span>
+                                <span style="font-size: 0.75em; opacity: 0.9;">${eraseText}</span>
+                            </button>
+                        </esp-web-install-button>
+                    `;
+
+                    hideStatus();
+
+                } catch (error) {
+                    console.error('Flash button creation error:', error);
+                    showStatus(`Lỗi: ${error.message}`, 'error');
+                    elements.flashContainer.innerHTML = '<button class="esp-flash-button" disabled>❌ Lỗi tạo nút flash</button>';
+                }
+            }
+
+            function loadESPWebTools() {
+                return new Promise((resolve, reject) => {
+                    // Check if already loaded
+                    if (state.webToolsLoaded || window.customElements?.get('esp-web-install-button')) {
+                        state.webToolsLoaded = true;
+                        resolve();
+                        return;
+                    }
+
+                    const script = document.createElement('script');
+                    script.type = 'module';
+                    script.src = 'https://unpkg.com/esp-web-tools@10/dist/web/install-button.js';
+                    
+                    script.onload = () => {
+                        state.webToolsLoaded = true;
+                        console.log('ESP Web Tools loaded successfully');
+                        resolve();
+                    };
+
+                    script.onerror = (error) => {
+                        console.error('Failed to load ESP Web Tools:', error);
+                        reject(new Error('Không thể tải ESP Web Tools'));
+                    };
+
+                    document.head.appendChild(script);
+                });
+            }
+
+            // ===== EVENT HANDLERS =====
+
+            function handleConfigChange() {
+                updateConfigDisplay();
+            }
+
+            function handleCheckboxChange() {
+                if (state.selectedConfig) {
+                    createFlashButton(state.selectedConfig);
+                }
+            }
+
+            function handlePageUnload() {
+                state.cleanup();
+            }
+
+            // ===== INITIALIZATION =====
+
+            function init() {
+                try {
+                    console.log('🚀 ESP32 Flasher Starting...');
+                    console.log('📍 DEBUG_MODE:', DEBUG_MODE);
+                    
+                    // Add event listeners with cleanup tracking
+                    state.addListener(elements.configSelect, 'change', handleConfigChange);
+                    state.addListener(elements.eraseCheckbox, 'change', handleCheckboxChange);
+                    state.addListener(window, 'beforeunload', handlePageUnload);
+
+                    console.log('✅ Event listeners registered');
+
+                    // Load configurations
+                    loadConfigurations();
+
+                    console.log('✅ ESP32 Flasher initialized successfully');
+
+                } catch (error) {
+                    console.error('❌ Initialization error:', error);
+                    showStatus('Lỗi khởi tạo: ' + error.message, 'error');
+                }
+            }
+
+            // Start the application
+            init();
+
+            // Cleanup on page unload
+            window.addEventListener('unload', () => state.cleanup());
+
+        })();
+    </script>
+</div></body>
+</html>
