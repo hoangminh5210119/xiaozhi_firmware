@@ -1,0 +1,7 @@
+{
+  "title": "Esp32 S3 ST7789 240x240",
+  "board": "Esp32 S3",
+  "display": "ST7789 240x240",
+  "img_schematic": "images/esp32s3_st7789_240x240/connect.png",
+  "hotword": "alexa"
+}

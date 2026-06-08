@@ -1,0 +1,7 @@
+{
+  "title": "Esp32-S3 ST7789 240X240 1.54 inch",
+  "board": "esp32-S3",
+  "display": "ST7789 240X320 1.54 inch",
+  "img_schematic": "images/s3_tft1.54_custom/connection.png",
+  "hotword": "alexa"
+}

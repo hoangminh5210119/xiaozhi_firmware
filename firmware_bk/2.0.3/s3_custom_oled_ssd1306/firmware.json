@@ -1,0 +1,7 @@
+{
+  "title": "Esp32 S3 SSD1306 128x64",
+  "board": "Esp32 S3",
+  "display": "SSD1306 128x64",
+  "img_schematic": "images/s3_custom_oled_ssd1306/connect.png",
+  "hotword": "alexa"
+}

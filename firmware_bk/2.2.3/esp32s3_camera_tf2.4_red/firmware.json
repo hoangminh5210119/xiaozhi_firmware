@@ -1,0 +1,7 @@
+{
+  "title": "Esp32-S3 Camera ST7789 240X320 2.4 inch",
+  "board": "esp32-S3 Camera",
+  "display": "ST7789 240X320 2.4 inch",
+  "img_schematic": "images/esp32s3_camera_tf2.4_red/image.png",
+  "hotword": "alexa"
+}

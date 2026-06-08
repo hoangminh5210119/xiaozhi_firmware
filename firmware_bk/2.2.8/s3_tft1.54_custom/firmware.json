@@ -1,0 +1,7 @@
+{
+  "title": "s3_tft1.54_custom",
+  "board": "esp32s3",
+  "display": "",
+  "img_schematic": "images/s3_tft1.54_custom/image.png",
+  "hotword": "alexa"
+}
