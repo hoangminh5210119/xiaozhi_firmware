@@ -1,5 +1,5 @@
 {
-  "title": "Esp32 S3 SSD1306 128x64",
+  "title": "Esp32 tím SSD1306 128x64",
   "board": "Esp32 S3",
   "display": "SSD1306 128x64",
   "img_schematic": "images/esp32s3_purple_oled_SSD1306/connect.png",

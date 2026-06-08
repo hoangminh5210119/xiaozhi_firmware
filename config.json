@@ -3,15 +3,6 @@
     "title": "Esp32 S3 SSD1306 128x64",
     "board": "Esp32 S3",
     "display": "SSD1306 128x64",
-    "img_schematic": "images/esp32s3_purple_oled_SSD1306/connect.png",
-    "version": "2.2.6",
-    "hotword": "alexa",
-    "firmware": "firmware/2.2.6/esp32s3_purple_ssd1306_128x64/merged_firmware.bin"
-  },
-  {
-    "title": "Esp32 S3 SSD1306 128x64",
-    "board": "Esp32 S3",
-    "display": "SSD1306 128x64",
     "img_schematic": "images/esp32s3_ssd1306_128x64/connect.png",
     "version": "2.2.6",
     "hotword": "alexa",
@@ -25,5 +16,14 @@
     "version": "2.2.6",
     "hotword": "alexa",
     "firmware": "firmware/2.2.6/esp32s3_st7789_240x240/merged_firmware.bin"
+  },
+  {
+    "title": "Esp32 tím SSD1306 128x64",
+    "board": "Esp32 S3",
+    "display": "SSD1306 128x64",
+    "img_schematic": "images/esp32s3_purple_oled_SSD1306/connect.png",
+    "version": "2.2.6",
+    "hotword": "alexa",
+    "firmware": "firmware/2.2.6/esp32s3_purple_ssd1306_128x64/merged_firmware.bin"
   }
 ]
