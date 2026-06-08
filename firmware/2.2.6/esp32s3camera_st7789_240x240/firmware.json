@@ -1,0 +1,7 @@
+{
+  "title": "Esp32 S3 CAMERA ST7789 240x240",
+  "board": "Esp32 S3 CAMERA",
+  "display": "ST7789 240x240",
+  "img_schematic": "images/esp32s3camera_st7789_240x240/image.png",
+  "hotword": "alexa"
+}

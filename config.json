@@ -1,5 +1,14 @@
 [
   {
+    "title": "Esp32 S3 CAMERA ST7789 240x240",
+    "board": "Esp32 S3 CAMERA",
+    "display": "ST7789 240x240",
+    "img_schematic": "images/esp32s3camera_st7789_240x240/image.png",
+    "version": "2.2.6",
+    "hotword": "alexa",
+    "firmware": "firmware/2.2.6/esp32s3camera_st7789_240x240/merged_firmware.bin"
+  },
+  {
     "title": "Esp32 S3 SSD1306 128x64",
     "board": "Esp32 S3",
     "display": "SSD1306 128x64",
