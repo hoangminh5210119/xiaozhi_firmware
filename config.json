@@ -27,12 +27,48 @@
     "firmware": "firmware/2.2.6/esp32s3_st7789_240x240/merged_firmware.bin"
   },
   {
-    "title": "Esp32 tím SSD1306 128x64",
+    "title": "Esp32 S3 tím SSD1306 128x64",
     "board": "Esp32 S3",
     "display": "SSD1306 128x64",
     "img_schematic": "images/esp32s3_purple_oled_SSD1306/connect.png",
     "version": "2.2.6",
     "hotword": "alexa",
     "firmware": "firmware/2.2.6/esp32s3_purple_ssd1306_128x64/merged_firmware.bin"
+  },
+  {
+    "title": "Esp32S3 ST7789 240x320",
+    "board": "Esp32 S3",
+    "display": "ST7789 240x320",
+    "img_schematic": "images/esp32s3_tft2.8_st7789_240320/connect.png",
+    "version": "2.2.6",
+    "hotword": "alexa",
+    "firmware": "firmware/2.2.6/esp32s3_st7789_240x320/merged_firmware.bin"
+  },
+  {
+    "title": "Esp32S3 Camera ST7789 240x320",
+    "board": "Esp32 S3",
+    "display": "ST7789 240x320",
+    "img_schematic": "images/esp32s3Camera_new_st7789_240x320/connection.png",
+    "version": "2.2.6",
+    "hotword": "alexa",
+    "firmware": "firmware/2.2.6/esp32s3camera_st7789_240x320/merged_firmware.bin"
+  },
+  {
+    "title": "Esp32S3 Camera ST7789 1.54 240x240 OLD",
+    "board": "Esp32 S3",
+    "display": "ST7789 240x240",
+    "img_schematic": "images/esp32s3camera_st7789_240x240/image.png",
+    "version": "2.2.6",
+    "hotword": "alexa",
+    "firmware": "firmware_bk/2.2.3/esp32s3_camera_tft1.54/merged_firmware.bin"
+  },
+  {
+    "title": "Esp32S3 Camera ST7789 2.4 240x320 OLD",
+    "board": "Esp32 S3",
+    "display": "màn 2.4 ST7789 240x320",
+    "img_schematic": "images/esp32s3camera_st7789_240x240/image.png",
+    "version": "2.2.6",
+    "hotword": "alexa",
+    "firmware": "firmware_bk/2.2.3/esp32s3_camera_tf2.4_red/merged_firmware.bin"
   }
 ]
